@@ -27,7 +27,7 @@ class OdOauthController < ApplicationController
                              "client_secret" => SECRET_APP_KEY
                             })
       request_result = http.request(request)
-      if(request_result.code == 200)
+      if request_result.code == "200"
         @result = ActiveSupport::JSON.decode(request_result.body)
       else
         @result = "error " + request_result.code
