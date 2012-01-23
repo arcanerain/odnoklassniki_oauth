@@ -1,4 +1,10 @@
 OdnoklassnikiOauth::Application.routes.draw do
+  get "od_oauth/index"
+
+  get "od_oauth/callback"
+
+  get "od_oauth/logout"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
