@@ -19,16 +19,20 @@ class OdOauthController < ApplicationController
       # taking an access_token
       uri = URI.parse("http://api.odnoklassniki.ru/oauth/token.do")
       http = Net::HTTP.new(uri.host, uri.port)
-      req = Net::HTTP::Post.new(uri.request_uri)
-      req.set_form_data({"code"          => @code,
-                         "redirect_uri"  => CALLBACK_URL,
-                         "grant_type"    => "authorization_code",
-                         "client_id"     => APP_ID,
-                         "client_secret" => SECRET_APP_KEY
-                        })
-      @result = http.request(req)
-      #p res.body
-      #p res.code # 301
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request.set_form_data({"code"          => @code,
+                             "redirect_uri"  => CALLBACK_URL,
+                             "grant_type"    => "authorization_code",
+                             "client_id"     => APP_ID,
+                             "client_secret" => SECRET_APP_KEY
+                            })
+      request_result = http.request(request)
+      if(request_result.code == 200)
+        @result = ActiveSupport::JSON.decode(request_result.body)
+      else
+        @result = "error " + request_result.code
+      end
+
     end
   end
 
