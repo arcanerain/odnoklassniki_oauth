@@ -32,11 +32,31 @@ class OdOauthController < ApplicationController
       else
         @result = "error " + request_result.code
       end
-
     end
+  end
+
+  def get_current_user
+    send_a_request params[:access_token], "users.getCurrentUser"
+  end
+
+  def get_logged_in_user
+    send_a_request params[:access_token], "users.getLoggedInUser"
   end
 
   def logout
   end
+
+  def send_a_request(token, method)
+    if !token.nil?
+      uri = URI.parse("http://api.odnoklassniki.ru/fb.do?access_token="+token+"&method="+method)
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Get.new(uri.to_s)
+      response = http.request(request)
+      @result = ActiveSupport::JSON.decode(response.body)
+    else
+      @result = "error: access token is nil"
+    end
+  end
+
 
 end

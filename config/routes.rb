@@ -1,9 +1,9 @@
 OdnoklassnikiOauth::Application.routes.draw do
   get "od_oauth/index"
-
   get "od_oauth/callback"
-
   get "od_oauth/logout"
+  get "od_oauth/get_current_user"
+  get "od_oauth/get_logged_in_user"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
