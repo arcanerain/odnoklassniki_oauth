@@ -1,3 +1,4 @@
+require 'digest/md5'
 class OdOauthController < ApplicationController
   APP_ID = 25473536
   PUBLIC_APP_KEY = "CBADLFICABABABABA"
