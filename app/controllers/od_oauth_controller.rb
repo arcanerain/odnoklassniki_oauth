@@ -36,8 +36,8 @@ class OdOauthController < ApplicationController
   end
 
   def get_current_user
+    sig = Digest::MD5.hexdigest("access_token="+params[:access_token]+"application_key="+PUBLIC_APP_KEY+"SECRET_APP_KEY").downcase!
     send_a_request params[:access_token], "users.getCurrentUser"
-    sig = Digest::MD5.hexdigest("access_token="+token+"application_key="+PUBLIC_APP_KEY+"SECRET_APP_KEY").downcase!
   end
 
   def get_logged_in_user
