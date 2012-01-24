@@ -48,7 +48,8 @@ class OdOauthController < ApplicationController
 
   def send_a_request(token, method)
     if !token.nil?
-      uri = URI.parse("http://api.odnoklassniki.ru/fb.do?access_token="+token+"&method="+method+"&application_key="+PUBLIC_APP_KEY)
+      sig = Digest::MD5.hexdigest("access_token="+token.to_s+"application_key="+PUBLIC_APP_KEY+"method="+method+SECRET_APP_KEY).downcase!
+      uri = URI.parse("http://api.odnoklassniki.ru/fb.do?access_token="+token+"&method="+method+"&application_key="+PUBLIC_APP_KEY+"&sig="+sig)
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Get.new(uri.to_s)
       response = http.request(request)
