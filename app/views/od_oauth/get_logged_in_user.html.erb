@@ -1,4 +1,4 @@
 <%= debug(@result) %>
-<%= debug(@exception) if !@exception.nil? %>
+<%= debug(@exception) unless @exception.nil? %>
 <p><%= link_to "users.getCurrentUser", "get_current_user?access_token="+@access_token %></p>
 <p><%= link_to "Restart", "index" %></p>

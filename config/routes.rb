@@ -4,6 +4,7 @@ OdnoklassnikiOauth::Application.routes.draw do
   get "od_oauth/logout"
   get "od_oauth/get_current_user"
   get "od_oauth/get_logged_in_user"
+  get "od_oauth/friends_get"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

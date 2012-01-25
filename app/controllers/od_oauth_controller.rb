@@ -43,14 +43,23 @@ class OdOauthController < ApplicationController
     send_a_request params[:access_token], "users.getLoggedInUser"
   end
 
+  def friends_get
+    send_a_request params[:access_token], "friends.get", params[:uid].to_s
+  end
+
   def logout
   end
 
-  def send_a_request(token, method)
-    if !token.nil?
+  def send_a_request(token, method, uid = "")
+    unless token.nil?
       token_and_appkey = Digest::MD5.hexdigest(token+SECRET_APP_KEY)
-      sig = Digest::MD5.hexdigest("application_key="+PUBLIC_APP_KEY+"format=JSONmethod="+method+token_and_appkey).downcase
-      uri = URI.parse("http://api.odnoklassniki.ru/fb.do?access_token="+token+"&format=JSON&method="+method+"&application_key="+PUBLIC_APP_KEY+"&sig="+sig)
+      if method == "users.getLoggedInUser" || method == "users.getCurrentUser"
+        sig = Digest::MD5.hexdigest("application_key="+PUBLIC_APP_KEY+"format=JSONmethod="+method+token_and_appkey).downcase
+        uri = URI.parse("http://api.odnoklassniki.ru/fb.do?access_token="+token+"&format=JSON&method="+method+"&application_key="+PUBLIC_APP_KEY+"&sig="+sig)
+      elsif method == "friends.get"
+        sig = Digest::MD5.hexdigest("application_key="+PUBLIC_APP_KEY+"format=JSONmethod="+method+"uid="+uid+token_and_appkey).downcase
+        uri = URI.parse("http://api.odnoklassniki.ru/fb.do?access_token="+token+"&format=JSON&method="+method+"&application_key="+PUBLIC_APP_KEY+"&uid="+uid+"&sig="+sig)
+      end
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Get.new(uri.to_s)
       response = http.request(request)
