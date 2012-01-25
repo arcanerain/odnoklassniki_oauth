@@ -54,7 +54,12 @@ class OdOauthController < ApplicationController
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Get.new(uri.to_s)
       response = http.request(request)
-      @result = ActiveSupport::JSON.decode(response.body)
+      begin
+        @result = ActiveSupport::JSON.decode(response.body)
+      rescue => ex
+        @result = response.body
+        @exception = ex
+      end
     else
       @result = "error: access token is nil"
     end
