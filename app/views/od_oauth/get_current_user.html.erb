@@ -1,4 +1,4 @@
 <%= debug(@result) %>
 <%= debug(@exception) if !@exception.nil? %>
-<p><%= link_to "users.getLoggedInUser", "get_logged_in_user?access_token="+@result['access_token']  %></p>
+<p><%= link_to "users.getLoggedInUser", "get_logged_in_user?access_token="+@access_token  %></p>
 <p><%= link_to "Restart", "index" %></p>
