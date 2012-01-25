@@ -6,7 +6,7 @@ class OdOauthController < ApplicationController
 
   def index
     @client_id = APP_ID.to_s
-    @scope = ""
+    @scope = URI::encode("VALUABLE ACCESS")
     @response_type = "code"
     @redirect_uri = CALLBACK_URL
   end
