@@ -63,6 +63,7 @@ class OdOauthController < ApplicationController
     else
       @result = "error: access token is nil"
     end
+    @access_token = token
   end
 
 
